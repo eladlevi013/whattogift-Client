@@ -1,11 +1,12 @@
 import react from 'react'
-import { View, Text} from 'react-native';
+import { View, Text, Button} from 'react-native';
 import Style from "../../utilities/AppStyle";
 
-const Profile = () => {
+const Profile = (props) => {
     return(
         <View style={Style.container}>
             <Text>Profile</Text>
+            <Button onPress={() => {props.navigation.navigate('test')}} title='Go To Test'/>
         </View>
     )
 }

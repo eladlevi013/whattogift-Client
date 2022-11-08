@@ -12,7 +12,7 @@ import Gifts from '../screens/gifts';
 import Favorites from '../screens/favorites';
 import Profile from '../screens/profile';
 
-// CREATE STACK
+// CREATE DASHBOARD STACK
 const DashboardStackNavigator = createNativeStackNavigator();
 export const DashboardStack = () => {
     return(
@@ -23,15 +23,48 @@ export const DashboardStack = () => {
     )
 }
 
+// CREATE GIFTS STACK
+const GiftsStackNavigator = createNativeStackNavigator();
+export const GiftsStack = () => {
+    return(
+        <GiftsStackNavigator.Navigator>
+            <GiftsStackNavigator.Screen name='gifts' component={Gifts} />
+            <GiftsStackNavigator.Screen name='test' component={Test} />
+        </GiftsStackNavigator.Navigator>
+    )
+}
+
+// CREATE FAVORITES STACK
+const FavoritesStackNavigator = createNativeStackNavigator();
+export const FavoriteStack = () => {
+    return(
+        <FavoritesStackNavigator.Navigator>
+            <FavoritesStackNavigator.Screen name='favorite' component={Favorites} />
+            <FavoritesStackNavigator.Screen name='test' component={Test} />
+        </FavoritesStackNavigator.Navigator>
+    )
+}
+
+// CREATE PROFILE STACK
+const ProfileStackNavigator = createNativeStackNavigator();
+export const ProfileStack = () => {
+    return(
+        <ProfileStackNavigator.Navigator>
+            <ProfileStackNavigator.Screen name='profile' component={Profile} />
+            <ProfileStackNavigator.Screen name='test' component={Test} />
+        </ProfileStackNavigator.Navigator>
+    )
+}
+
 // CREATE TABS
 const AppTab = createMaterialBottomTabNavigator();
 export const TabsNavigator = () => {
     return(
         <AppTab.Navigator>
             <AppTab.Screen name='dashboardTab' component={DashboardStack} options={{tabBarLabel: 'Dashboard', tabBarIcon: () => (<MaterialCommunityIcons name='view-grid' size={28}/>)}}/>
-            <AppTab.Screen name='giftsTab' component={Gifts} options={{tabBarLabel: 'Gift', tabBarIcon: () => (<MaterialCommunityIcons name='view-grid' size={28}/>)}}/>
-            <AppTab.Screen name='favoritesTab' component={Favorites} options={{tabBarLabel: 'Favorite', tabBarIcon: () => (<MaterialCommunityIcons name='view-grid' size={28}/>)}}/>
-            <AppTab.Screen name='profileTab' component={Profile} options={{tabBarLabel: 'Profile', tabBarIcon: () => (<MaterialCommunityIcons name='view-grid' size={28}/>)}}/>
+            <AppTab.Screen name='giftsTab' component={GiftsStack} options={{tabBarLabel: 'Gift', tabBarIcon: () => (<MaterialCommunityIcons name='gift' size={28}/>)}}/>
+            <AppTab.Screen name='favoritesTab' component={FavoriteStack} options={{tabBarLabel: 'Favorite', tabBarIcon: () => (<MaterialCommunityIcons name='heart' size={28}/>)}}/>
+            <AppTab.Screen name='profileTab' component={ProfileStack} options={{tabBarLabel: 'Profile', tabBarIcon: () => (<MaterialCommunityIcons name='face-man-profile' size={28}/>)}}/>
         </AppTab.Navigator>
     )
 }
