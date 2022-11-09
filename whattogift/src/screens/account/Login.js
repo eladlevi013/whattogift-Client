@@ -1,14 +1,54 @@
-import react, {useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import react, {useState, useEffect} from "react";
+import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Style from '../../utilities/AppStyle';
 
 const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(null);
 
-    const login = () => {
+    useEffect(() => {
+        if(errorMsg) {
+            Alert.alert('Login', errorMsg);
+        }
+    }, [errorMsg])
 
+    const login = async() => {
+        setIsLoading(true);
+        if(email != "" || password != "")
+        {
+            try {
+                const url = 'http://10.70.1.123:3001/api/account/login';
+                const response = await fetch(url, {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                })
+
+                const data = await response.json();
+                if(data.status)
+                {
+                    setIsLoading(false);
+                    setErrorMsg(data.token);
+                }
+                else 
+                {
+                    setIsLoading(false);
+                    setErrorMsg(data.message);
+                }
+            } catch (error) {
+                setIsLoading(false);
+                setErrorMsg(error.message);
+            }
+        } else {
+            setIsLoading(false);
+            setErrorMsg('All inputs required');
+        }
     }
 
     return(
@@ -35,9 +75,9 @@ const Login = (props) => {
                 right={<TextInput.Icon icon="eye"/>}
                 onChangeText={text => setPassword(text)}/>
     
-          <TouchableOpacity style={styles.btn} onPress={login}>
-            <Text>Login</Text>
-          </TouchableOpacity>
+        {
+            isLoading ? (<ActivityIndicator style={{marginTop: 10}}/>) : (<TouchableOpacity style={styles.btn} onPress={login}><Text>Login</Text></TouchableOpacity>)
+        }
           <Text style={styles.title} onPress={() => {props.navigation.navigate('register')}} >don't have an account?</Text>
         </View>
       )

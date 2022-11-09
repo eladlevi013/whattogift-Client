@@ -6,7 +6,7 @@ const Dashboard = (props) => {
     return(
         <View style={Style.container}>
             <Text>Dashboard</Text>
-            <Button onPress={() => {props.navigation.navigate('test')}} title='Go To Test'/>
+            {/* <Button onPress={() => {props.navigation.navigate('test')}} title='Go To Test'/> */}
         </View>
     )
 }
