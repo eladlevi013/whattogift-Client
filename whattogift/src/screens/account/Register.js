@@ -4,6 +4,8 @@ import {TextInput} from 'react-native-paper';
 import Style from '../../utilities/AppStyle';
 
 const Register = (props) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -15,6 +17,26 @@ const Register = (props) => {
         <View style={styles.container}>
           <Text style={styles.title}>{email}</Text>
     
+          <TextInput
+            label="First Name"
+            style={styles.input}
+            keyboardType= 'none'
+            autoCapitalize="none"
+            placeholder= "First Name"
+            value={email}
+            right={<TextInput.Icon icon="home"/>}
+            onChangeText={text => setFirstName(text)}/>
+
+            <TextInput
+            label="Last Name"
+            style={styles.input}
+            keyboardType= 'none'
+            autoCapitalize="none"
+            placeholder= "Last Name"
+            value={email}
+            right={<TextInput.Icon icon="home"/>}
+            onChangeText={text => setLastName(text)}/>
+
           <TextInput
             label="Email"
             style={styles.input}
@@ -38,7 +60,7 @@ const Register = (props) => {
           <TouchableOpacity style={styles.btn} onPress={register}>
             <Text>Register</Text>
           </TouchableOpacity>
-          <Text style={styles.title} onPress={() => {props.navigation.navigate('register ')}} >don't have an account?</Text>
+          <Text style={styles.title} onPress={() => {props.navigation.navigate('login')}} >don't have an account?</Text>
         </View>
       )
 }
