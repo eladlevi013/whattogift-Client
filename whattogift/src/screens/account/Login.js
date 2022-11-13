@@ -2,6 +2,7 @@ import react, {useState, useEffect} from "react";
 import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import Style from '../../utilities/AppStyle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = (props) => {
     const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ const Login = (props) => {
         if(email != "" || password != "")
         {
             try {
-                const url = 'http://10.70.1.123:3001/api/account/login';
+                const url = 'http://192.168.1.5:3001/api/account/login';
                 const response = await fetch(url, {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
@@ -33,10 +34,25 @@ const Login = (props) => {
                 const data = await response.json();
                 if(data.status)
                 {
-                    setIsLoading(false);
+                  AsyncStorage.setItem('Token', JSON.stringify({
+                      token: data.token
+                  }));
+
                     setErrorMsg(data.token);
+                    const overview_url = 'http://192.168.1.5:3001/api/account/getOverview';
+                    const overview_response = await fetch(overview_url, {
+                      method: 'get',
+                      headers: {
+                        'Content-Type' : 'application/json',
+                        'Authorization' : `Bearer ${data.token}`
+                      }
+                    })
+                    const overview_data = await overview_response.json();
+                    setErrorMsg(overview_data.message);
+
+                    setIsLoading(false);
                 }
-                else 
+                else
                 {
                     setIsLoading(false);
                     setErrorMsg(data.message);
